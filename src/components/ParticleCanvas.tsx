@@ -48,6 +48,14 @@ export default function ParticleCanvas() {
       const h = canvas.clientHeight;
       ctx.clearRect(0, 0, w, h);
 
+      // theme-aware colors (checked per frame so the toggle takes effect live)
+      const light = document.documentElement.classList.contains("light");
+      const dotColor = light
+        ? "rgba(51, 65, 85, 0.45)"
+        : "rgba(148, 197, 253, 0.55)";
+      const linkRgb = light ? "8, 145, 178" : "56, 189, 248";
+      const mouseRgb = light ? "124, 58, 237" : "167, 139, 250";
+
       for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
@@ -56,7 +64,7 @@ export default function ParticleCanvas() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(148, 197, 253, 0.55)";
+        ctx.fillStyle = dotColor;
         ctx.fill();
       }
 
@@ -71,7 +79,7 @@ export default function ParticleCanvas() {
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(56, 189, 248, ${0.14 * (1 - dist / LINK_DIST)})`;
+            ctx.strokeStyle = `rgba(${linkRgb}, ${0.14 * (1 - dist / LINK_DIST)})`;
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -82,7 +90,7 @@ export default function ParticleCanvas() {
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
           ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = `rgba(167, 139, 250, ${0.25 * (1 - md / MOUSE_DIST)})`;
+          ctx.strokeStyle = `rgba(${mouseRgb}, ${0.25 * (1 - md / MOUSE_DIST)})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }

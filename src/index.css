@@ -50,6 +50,59 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+/*
+ * Light theme: every color utility compiles to var(--color-*), so flipping
+ * the variables under :root.light re-skins the whole site. The slate scale
+ * is inverted (light text tones become dark ink tones).
+ */
+:root.light {
+  color-scheme: light;
+
+  --color-void: #f6f8fc;
+  --color-surface: #eef2f8;
+  --color-card: #ffffffb8;
+  --color-line: #0f172a1a;
+  --color-neon: #0891b2;
+  --color-violet-neon: #7c3aed;
+  --color-muted: #475569;
+
+  --color-white: #0f172a;
+  --color-slate-200: #1e293b;
+  --color-slate-300: #334155;
+  --color-slate-400: #52607a;
+  --color-slate-500: #64748b;
+  --color-slate-600: #8b9bb4;
+  --color-cyan-400: #0e7490;
+  --color-sky-400: #0369a1;
+  --color-violet-400: #6d28d9;
+}
+
+:root.light .bg-grid {
+  background-image: radial-gradient(circle, #0f172a12 1px, transparent 1px);
+}
+:root.light .glow-card::before {
+  background: linear-gradient(140deg, #0891b23d, #0f172a14 40%, #7c3aed3d);
+}
+:root.light .glow-card:hover::before {
+  background: linear-gradient(140deg, #0891b280, #0f172a22 40%, #7c3aed80);
+}
+:root.light ::selection {
+  background: #0891b233;
+}
+:root.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+:root.light ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+body {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
