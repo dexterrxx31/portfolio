@@ -57,7 +57,7 @@ export default function Hero() {
         <motion.div
           {...fadeUp}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-6 flex h-8 items-center justify-center font-mono text-base text-slate-300 sm:text-xl"
+          className="mt-6 flex min-h-8 items-center justify-center font-mono text-sm text-slate-300 sm:text-xl"
         >
           <span>{typed}</span>
           <span className="ml-1 inline-block h-5 w-2.5 bg-neon animate-blink sm:h-6" />
