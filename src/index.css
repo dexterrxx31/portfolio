@@ -129,22 +129,6 @@ html {
   color: #ffffff;
 }
 
-/* keep terminal windows dark in light mode (code-block style) for contrast */
-:root.light .term-window {
-  --color-void: #050a08;
-  --color-surface: #0b1512;
-  --color-line: #ffffff14;
-  --color-white: #f1f5f9;
-  --color-slate-200: #e2e8f0;
-  --color-slate-300: #cbd5e1;
-  --color-slate-400: #9aa9a3;
-  --color-slate-500: #8a9791;
-  --color-slate-600: #6b7772;
-  --color-neon: #22d3ee;
-  --color-violet-neon: #a78bfa;
-  color-scheme: dark;
-}
-
 :root.light .bg-grid {
   background-image: radial-gradient(circle, #0f172a12 1px, transparent 1px);
 }
