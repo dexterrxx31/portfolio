@@ -214,6 +214,96 @@ body {
   background: linear-gradient(140deg, #34d39988, #ffffff22 40%, #2dd4bf88);
 }
 
+/* ---- Magic-wand cursor ---- */
+html.wand-cursor,
+html.wand-cursor * {
+  cursor: none !important;
+}
+.wand-cursor-el {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  color: var(--color-neon);
+}
+.wand-inner {
+  transform: translate(-70%, -8%);
+  transition:
+    transform 0.15s ease,
+    filter 0.2s ease;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--color-neon) 60%, transparent));
+}
+.wand-inner.is-active {
+  transform: translate(-70%, -8%) scale(1.3) rotate(-10deg);
+  filter: drop-shadow(0 0 9px var(--color-neon));
+}
+.wand-spark-tip {
+  fill: var(--color-violet-neon);
+}
+.wand-spark {
+  position: fixed;
+  z-index: 9998;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  pointer-events: none;
+  border-radius: 1px;
+  background: var(--color-neon);
+  transform: rotate(45deg);
+  box-shadow: 0 0 6px var(--color-neon);
+  animation: sparkfade 0.65s ease-out forwards;
+}
+.wand-spark--alt {
+  background: var(--color-violet-neon);
+  box-shadow: 0 0 6px var(--color-violet-neon);
+}
+@keyframes sparkfade {
+  0% {
+    opacity: 0.9;
+    transform: rotate(45deg) scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) scale(0.2) translateY(10px);
+  }
+}
+
+/* ---- Vertical scroll-progress beam (left edge) ---- */
+.scroll-rail {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  z-index: 60;
+  background: var(--color-line);
+  pointer-events: none;
+}
+.scroll-rail-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: top center;
+  background: linear-gradient(to bottom, var(--color-neon), var(--color-violet-neon));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--color-neon) 45%, transparent);
+}
+.scroll-rail-head {
+  position: absolute;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: var(--color-neon);
+  box-shadow: 0 0 12px 2px var(--color-neon);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wand-spark {
+    display: none;
+  }
+}
+
 /* ---- 3D depth utilities ---- */
 .perspective {
   perspective: 1000px;
