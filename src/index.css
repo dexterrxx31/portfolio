@@ -115,13 +115,34 @@ html {
   --color-slate-300: #334155;
   --color-slate-400: #52607a;
   --color-slate-500: #64748b;
-  --color-slate-600: #8b9bb4;
+  --color-slate-600: #64748b; /* darker so faint mono labels (//, footer) read */
   /* restore cyan→violet accents for light mode (dark remaps these to emerald) */
   --color-cyan-400: #0e7490;
-  --color-cyan-500: #0891b2;
+  --color-cyan-500: #0e7490; /* deeper so white button text stays legible */
   --color-sky-400: #0369a1;
   --color-violet-400: #6d28d9;
-  --color-violet-500: #7c3aed;
+  --color-violet-500: #6d28d9;
+}
+
+/* keep accent-gradient buttons legible: white text on the colored gradient */
+:root.light [class*="from-cyan-500"] {
+  color: #ffffff;
+}
+
+/* keep terminal windows dark in light mode (code-block style) for contrast */
+:root.light .term-window {
+  --color-void: #050a08;
+  --color-surface: #0b1512;
+  --color-line: #ffffff14;
+  --color-white: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #9aa9a3;
+  --color-slate-500: #8a9791;
+  --color-slate-600: #6b7772;
+  --color-neon: #22d3ee;
+  --color-violet-neon: #a78bfa;
+  color-scheme: dark;
 }
 
 :root.light .bg-grid {
