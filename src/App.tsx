@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from "react";
 import BootLoader from "./components/BootLoader";
 import CursorWand from "./components/CursorWand";
 import ScrollProgress from "./components/ScrollProgress";
+import RoboCat from "./components/RoboCat";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -31,6 +32,7 @@ export default function App() {
       {!booted && <BootLoader onDone={finishBoot} />}
       <CursorWand />
       <ScrollProgress />
+      <RoboCat />
       <div className="relative">
         <Navbar />
         <main>
