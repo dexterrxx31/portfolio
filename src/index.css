@@ -274,16 +274,16 @@ html.wand-cursor * {
   position: fixed;
   top: 0;
   left: 0;
-  width: 60px;
-  height: 48px;
+  width: 46px;
+  height: 37px;
   z-index: 55;
   pointer-events: none;
   will-change: transform;
 }
 .robo-flip {
   position: relative;
-  width: 60px;
-  height: 48px;
+  width: 46px;
+  height: 37px;
   transform-origin: center bottom;
 }
 .robo-svg {

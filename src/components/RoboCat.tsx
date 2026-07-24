@@ -87,7 +87,7 @@ export default function RoboCat() {
           }
         }
 
-        el.style.transform = `translate(${pos.current.x - 30}px, ${pos.current.y - 24}px)`;
+        el.style.transform = `translate(${pos.current.x - 23}px, ${pos.current.y - 18}px)`;
         flip.style.transform = `scaleX(${dir.current})`;
       }
       raf = requestAnimationFrame(tick);
@@ -113,7 +113,7 @@ export default function RoboCat() {
       </div>
       <div ref={flipRef} className="robo-flip">
         {/* ---- Awake / walking pose ---- */}
-        <svg className="robo-svg robo-awake" width="60" height="48" viewBox="0 0 60 48">
+        <svg className="robo-svg robo-awake" width="46" height="37" viewBox="0 0 60 48">
           {/* tail */}
           <g className="robo-tail">
             <path className="cat-tail" d="M12 24 C 2 22, 3 9, 9 6" strokeWidth="3" />
@@ -141,7 +141,7 @@ export default function RoboCat() {
         </svg>
 
         {/* ---- Asleep / lying-down pose ---- */}
-        <svg className="robo-svg robo-asleep" width="60" height="48" viewBox="0 0 60 48">
+        <svg className="robo-svg robo-asleep" width="46" height="37" viewBox="0 0 60 48">
           <g className="robo-tail-sleep">
             <path className="cat-tail" d="M15 34 C 5 34, 5 22, 13 23" strokeWidth="3" />
             <circle className="cat-accent" cx="13" cy="23" r="2.2" />
