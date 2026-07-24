@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Download } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
-import ParticleCanvas from "./ParticleCanvas";
 import TerminalWindow from "./TerminalWindow";
 import { useTypingEffect } from "../hooks/useTypingEffect";
 import { githubProfile, linkedinProfile } from "../data/projects";
+
+// Heavy WebGL — its own chunk, loaded after the boot screen. Skipped entirely
+// for reduced-motion users, who get the static aurora glow instead.
+const Globe = lazy(() => import("./Globe"));
+const prefersReducedMotion =
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const phrases = [
   "Software Development Engineer @ Evertz",
@@ -62,7 +68,12 @@ export default function Hero() {
         className="absolute -right-32 -bottom-32 h-[32rem] w-[32rem] rounded-full bg-violet-500/12 blur-[120px] animate-aurora [animation-delay:-7s]"
       />
       <div aria-hidden className="bg-grid absolute inset-0" />
-      <ParticleCanvas />
+      {!prefersReducedMotion && (
+        <Suspense fallback={null}>
+          <Globe />
+        </Suspense>
+      )}
+      <div aria-hidden className="hero-vignette absolute inset-0" />
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
         <motion.div {...fadeUp} transition={{ duration: 0.6, delay: 0.05 }}>
