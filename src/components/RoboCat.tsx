@@ -2,23 +2,25 @@ import { useEffect, useRef, useState } from "react";
 
 type CatState = "walk" | "idle" | "sleep";
 
-const NAP_DELAY = 6000; // ms of no activity before napping
-const FOLLOW = 0.04; // lazy follow factor (lower = lazier)
+const NAP_DELAY = 15000; // ms of no activity before napping
+const FOLLOW = 0.035; // lazy follow factor (lower = lazier)
+const OFFSET_Y = 30; // rest a little below the pointer (clear of the wand)
 
-/** A robotic cat that lazily follows you along the bottom and naps when idle. */
+/** A robotic cat that lazily roams the screen after your pointer and lies
+ *  down for a nap wherever it settles when you go idle. */
 export default function RoboCat() {
   const containerRef = useRef<HTMLDivElement>(null);
   const flipRef = useRef<HTMLDivElement>(null);
-  const posX = useRef(0);
-  const targetX = useRef(0);
+  const pos = useRef({ x: 0, y: 0 });
+  const target = useRef({ x: 0, y: 0 });
   const dir = useRef(1);
   const lastActivity = useRef(0);
   const stateRef = useRef<CatState>("idle");
   const [state, setState] = useState<CatState>("idle");
 
   useEffect(() => {
-    posX.current = window.innerWidth * 0.14;
-    targetX.current = posX.current;
+    pos.current = { x: window.innerWidth * 0.18, y: window.innerHeight * 0.7 };
+    target.current = { ...pos.current };
     lastActivity.current = performance.now();
 
     const setSt = (s: CatState) => {
@@ -32,11 +34,15 @@ export default function RoboCat() {
     };
 
     const onMove = (e: MouseEvent) => {
-      targetX.current = e.clientX;
+      target.current = { x: e.clientX, y: e.clientY + OFFSET_Y };
       wake();
     };
     const onTouch = (e: TouchEvent) => {
-      if (e.touches[0]) targetX.current = e.touches[0].clientX;
+      if (e.touches[0])
+        target.current = {
+          x: e.touches[0].clientX,
+          y: e.touches[0].clientY + OFFSET_Y,
+        };
       wake();
     };
     const onScroll = () => wake();
@@ -53,16 +59,16 @@ export default function RoboCat() {
       const el = containerRef.current;
       const flip = flipRef.current;
       if (el && flip) {
-        const half = el.offsetWidth / 2;
-        const tx = Math.min(
-          window.innerWidth - half - 6,
-          Math.max(half + 6, targetX.current),
-        );
-        const dx = tx - posX.current;
+        const tx = Math.min(window.innerWidth - 34, Math.max(34, target.current.x));
+        const ty = Math.min(window.innerHeight - 30, Math.max(34, target.current.y));
+        const dx = tx - pos.current.x;
+        const dy = ty - pos.current.y;
+        const dist = Math.hypot(dx, dy);
 
-        if (Math.abs(dx) > 2 && stateRef.current !== "sleep") {
-          dir.current = dx > 0 ? 1 : -1;
-          posX.current += dx * FOLLOW; // lazy amble
+        if (dist > 3 && stateRef.current !== "sleep") {
+          if (Math.abs(dx) > 1) dir.current = dx > 0 ? 1 : -1;
+          pos.current.x += dx * FOLLOW; // lazy amble
+          pos.current.y += dy * FOLLOW;
           setSt("walk");
         } else {
           if (stateRef.current === "walk") setSt("idle");
@@ -73,7 +79,7 @@ export default function RoboCat() {
             setSt("sleep");
           }
         }
-        el.style.transform = `translateX(${posX.current}px)`;
+        el.style.transform = `translate(${pos.current.x - 30}px, ${pos.current.y - 24}px)`;
         flip.style.transform = `scaleX(${dir.current})`;
       }
       raf = requestAnimationFrame(tick);
@@ -98,49 +104,53 @@ export default function RoboCat() {
         <span>z</span>
       </div>
       <div ref={flipRef} className="robo-flip">
-        <svg className="robo-svg" width="60" height="48" viewBox="0 0 60 48">
-          {/* tail */}
+        {/* ---- Awake / walking pose ---- */}
+        <svg className="robo-svg robo-awake" width="60" height="48" viewBox="0 0 60 48">
           <g className="robo-tail">
-            <path
-              d="M12 26 C 2 24, 3 11, 9 8"
-              fill="none"
-              stroke="#7c8797"
-              strokeWidth="3"
-              strokeLinecap="round"
-            />
+            <path d="M12 26 C 2 24, 3 11, 9 8" fill="none" stroke="#7c8797" strokeWidth="3" strokeLinecap="round" />
             <circle className="led" cx="9" cy="8" r="2.4" />
           </g>
-
-          {/* wheels / legs */}
           <circle className="wheel" cx="18" cy="40" r="6" fill="#8994a6" stroke="#5c6675" strokeWidth="1.5" />
           <circle className="wheel" cx="40" cy="40" r="6" fill="#8994a6" stroke="#5c6675" strokeWidth="1.5" />
           <circle className="hub" cx="18" cy="40" r="1.6" />
           <circle className="hub" cx="40" cy="40" r="1.6" />
-
-          {/* body */}
           <rect x="10" y="20" width="40" height="17" rx="7" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" />
           <circle cx="18" cy="28" r="1" fill="#7c8797" />
           <circle cx="26" cy="28" r="1" fill="#7c8797" />
-
-          {/* head */}
           <rect x="30" y="7" width="23" height="21" rx="6" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" />
-          {/* ears */}
           <path d="M33 9 L35 2 L40 9 Z" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" strokeLinejoin="round" />
           <path d="M44 9 L49 2 L51 9 Z" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" strokeLinejoin="round" />
-          {/* antenna */}
           <line x1="42" y1="7" x2="42" y2="2" stroke="#7c8797" strokeWidth="1.5" />
           <circle className="led robo-ant" cx="42" cy="1.6" r="1.8" />
+          <circle className="led" cx="39" cy="17" r="2.4" />
+          <circle className="led" cx="47" cy="17" r="2.4" />
+        </svg>
 
-          {/* eyes - open */}
-          <g className="eye-open">
-            <circle className="led" cx="39" cy="17" r="2.4" />
-            <circle className="led" cx="47" cy="17" r="2.4" />
+        {/* ---- Asleep / lying-down pose ---- */}
+        <svg className="robo-svg robo-asleep" width="60" height="48" viewBox="0 0 60 48">
+          {/* curled tail over the back */}
+          <g className="robo-tail-sleep">
+            <path d="M15 34 C 5 34, 5 22, 13 23" fill="none" stroke="#7c8797" strokeWidth="3" strokeLinecap="round" />
+            <circle className="led" cx="13" cy="23" r="2.2" />
           </g>
-          {/* eyes - closed (sleep) */}
-          <g className="eye-closed">
-            <path d="M36.5 17.5 h5" stroke="var(--color-neon)" strokeWidth="2" strokeLinecap="round" />
-            <path d="M44.5 17.5 h5" stroke="var(--color-neon)" strokeWidth="2" strokeLinecap="round" />
-          </g>
+          {/* tucked wheels resting on the ground */}
+          <circle cx="21" cy="42" r="3.4" fill="#8994a6" stroke="#5c6675" strokeWidth="1.2" />
+          <circle cx="37" cy="42" r="3.4" fill="#8994a6" stroke="#5c6675" strokeWidth="1.2" />
+          {/* low, long body lying down */}
+          <rect x="9" y="30" width="40" height="13" rx="6.5" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" />
+          <circle cx="20" cy="36" r="1" fill="#7c8797" />
+          <circle cx="28" cy="36" r="1" fill="#7c8797" />
+          {/* head resting level with the body */}
+          <rect x="37" y="29" width="18" height="14" rx="6" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" />
+          {/* flattened ears */}
+          <path d="M40 30 L42 25 L46 30 Z" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" strokeLinejoin="round" />
+          <path d="M47 30 L51 25 L52 30 Z" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" strokeLinejoin="round" />
+          {/* drooped antenna, dim LED */}
+          <line x1="49" y1="29" x2="52" y2="26" stroke="#7c8797" strokeWidth="1.5" />
+          <circle className="led robo-ant" cx="52.5" cy="25.5" r="1.5" />
+          {/* closed eyes */}
+          <path d="M40.5 36 h4" stroke="var(--color-neon)" strokeWidth="2" strokeLinecap="round" />
+          <path d="M47 36 h4" stroke="var(--color-neon)" strokeWidth="2" strokeLinecap="round" />
         </svg>
       </div>
     </div>
