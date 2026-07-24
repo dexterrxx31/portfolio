@@ -114,20 +114,28 @@ export default function RoboCat() {
       <div ref={flipRef} className="robo-flip">
         {/* ---- Awake / walking pose ---- */}
         <svg className="robo-svg robo-awake" width="60" height="48" viewBox="0 0 60 48">
+          {/* tail */}
           <g className="robo-tail">
-            <path d="M12 26 C 2 24, 3 11, 9 8" fill="none" stroke="#7c8797" strokeWidth="3" strokeLinecap="round" />
-            <circle className="led" cx="9" cy="8" r="2.4" />
+            <path className="cat-tail" d="M12 24 C 2 22, 3 9, 9 6" strokeWidth="3" />
+            <circle className="cat-accent" cx="9" cy="6" r="2.4" />
           </g>
-          <circle className="wheel wheel-a" cx="18" cy="40" r="6" fill="#8994a6" stroke="#5c6675" strokeWidth="1.5" />
-          <circle className="wheel wheel-b" cx="40" cy="40" r="6" fill="#8994a6" stroke="#5c6675" strokeWidth="1.5" />
-          <rect x="10" y="20" width="40" height="17" rx="7" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" />
-          <circle cx="18" cy="28" r="1" fill="#7c8797" />
-          <circle cx="26" cy="28" r="1" fill="#7c8797" />
-          <rect x="30" y="7" width="23" height="21" rx="6" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" />
-          <path d="M33 9 L35 2 L40 9 Z" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" strokeLinejoin="round" />
-          <path d="M44 9 L49 2 L51 9 Z" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" strokeLinejoin="round" />
-          <line x1="42" y1="7" x2="42" y2="2" stroke="#7c8797" strokeWidth="1.5" />
-          <circle className="led robo-ant" cx="42" cy="1.6" r="1.8" />
+          {/* four legs (diagonal trot: a = back-near + front-far) */}
+          <rect className="cat-leg leg-b" x="14.5" y="33" width="3.4" height="10" rx="1.7" />
+          <rect className="cat-leg leg-a" x="21" y="33" width="3.4" height="10" rx="1.7" />
+          <rect className="cat-leg leg-a" x="35.5" y="33" width="3.4" height="10" rx="1.7" />
+          <rect className="cat-leg leg-b" x="42" y="33" width="3.4" height="10" rx="1.7" />
+          {/* body */}
+          <rect className="cat-body" x="10" y="18" width="40" height="17" rx="8" />
+          <line className="cat-line" x1="21" y1="21" x2="21" y2="32" />
+          <circle className="led" cx="16" cy="26" r="1" />
+          {/* head */}
+          <rect className="cat-body" x="30" y="7" width="23" height="20" rx="6" />
+          <path className="cat-body" d="M33 9 L35 2 L40 9 Z" />
+          <path className="cat-body" d="M44 9 L49 2 L51 9 Z" />
+          {/* antenna */}
+          <line className="cat-tail" x1="42" y1="7" x2="42" y2="2.5" strokeWidth="1.5" />
+          <circle className="cat-accent robo-ant" cx="42" cy="2" r="1.7" />
+          {/* eyes */}
           <circle className="led" cx="39" cy="17" r="2.4" />
           <circle className="led" cx="47" cy="17" r="2.4" />
         </svg>
@@ -135,19 +143,22 @@ export default function RoboCat() {
         {/* ---- Asleep / lying-down pose ---- */}
         <svg className="robo-svg robo-asleep" width="60" height="48" viewBox="0 0 60 48">
           <g className="robo-tail-sleep">
-            <path d="M15 34 C 5 34, 5 22, 13 23" fill="none" stroke="#7c8797" strokeWidth="3" strokeLinecap="round" />
-            <circle className="led" cx="13" cy="23" r="2.2" />
+            <path className="cat-tail" d="M15 34 C 5 34, 5 22, 13 23" strokeWidth="3" />
+            <circle className="cat-accent" cx="13" cy="23" r="2.2" />
           </g>
-          <circle cx="21" cy="42" r="3.4" fill="#8994a6" stroke="#5c6675" strokeWidth="1.2" />
-          <circle cx="37" cy="42" r="3.4" fill="#8994a6" stroke="#5c6675" strokeWidth="1.2" />
-          <rect x="9" y="30" width="40" height="13" rx="6.5" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" />
-          <circle cx="20" cy="36" r="1" fill="#7c8797" />
-          <circle cx="28" cy="36" r="1" fill="#7c8797" />
-          <rect x="37" y="29" width="18" height="14" rx="6" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" />
-          <path d="M40 30 L42 25 L46 30 Z" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" strokeLinejoin="round" />
-          <path d="M47 30 L51 25 L52 30 Z" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" strokeLinejoin="round" />
-          <line x1="49" y1="29" x2="52" y2="26" stroke="#7c8797" strokeWidth="1.5" />
-          <circle className="led robo-ant" cx="52.5" cy="25.5" r="1.5" />
+          {/* folded paws */}
+          <rect className="cat-leg" x="18" y="39" width="10" height="4.2" rx="2.1" />
+          <rect className="cat-leg" x="31" y="39" width="10" height="4.2" rx="2.1" />
+          {/* low body */}
+          <rect className="cat-body" x="9" y="30" width="40" height="13" rx="6.5" />
+          <circle className="led" cx="20" cy="36" r="1" />
+          {/* head resting */}
+          <rect className="cat-body" x="37" y="29" width="18" height="14" rx="6" />
+          <path className="cat-body" d="M40 30 L42 25 L46 30 Z" />
+          <path className="cat-body" d="M47 30 L51 25 L52 30 Z" />
+          <line className="cat-tail" x1="49" y1="29" x2="52" y2="26" strokeWidth="1.5" />
+          <circle className="cat-accent robo-ant" cx="52.5" cy="25.5" r="1.5" />
+          {/* closed eyes */}
           <path d="M40.5 36 h4" stroke="var(--color-neon)" strokeWidth="2" strokeLinecap="round" />
           <path d="M47 36 h4" stroke="var(--color-neon)" strokeWidth="2" strokeLinecap="round" />
         </svg>

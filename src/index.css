@@ -290,12 +290,39 @@ html.wand-cursor * {
   position: absolute;
   inset: 0;
 }
+/* theme-matched glassy body + emerald glow */
+.robo-svg {
+  filter: drop-shadow(0 0 2px color-mix(in srgb, var(--color-neon) 45%, transparent));
+}
+.cat-body {
+  fill: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  stroke: var(--color-neon);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+.cat-leg {
+  fill: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  stroke: var(--color-neon);
+  stroke-width: 1.4;
+  transform-box: fill-box;
+  transform-origin: top center;
+}
+.cat-tail {
+  fill: none;
+  stroke: var(--color-neon);
+  stroke-linecap: round;
+}
+.cat-line {
+  stroke: var(--color-neon);
+  opacity: 0.4;
+}
+.cat-accent {
+  fill: var(--color-violet-neon);
+  filter: drop-shadow(0 0 3px var(--color-violet-neon));
+}
 .robo-svg .led {
   fill: var(--color-neon);
   filter: drop-shadow(0 0 3px var(--color-neon));
-}
-.robo-svg .hub {
-  fill: var(--color-void);
 }
 
 /* cross-fade between the awake and lying-down poses */
@@ -313,20 +340,16 @@ html.wand-cursor * {
   opacity: 1;
 }
 
-/* walking: bounce synced with alternating stepping legs */
+/* walking: bounce synced with alternating stepping legs (diagonal trot) */
 .robo-walk .robo-awake {
-  animation: catbob 0.36s ease-in-out infinite;
+  animation: catbob 0.34s ease-in-out infinite;
 }
-.robo-awake .wheel {
-  transform-box: fill-box;
-  transform-origin: center;
+.robo-walk .robo-awake .leg-a {
+  animation: legstep 0.34s ease-in-out infinite;
 }
-.robo-walk .robo-awake .wheel-a {
-  animation: legstep 0.36s ease-in-out infinite;
-}
-.robo-walk .robo-awake .wheel-b {
-  animation: legstep 0.36s ease-in-out infinite;
-  animation-delay: -0.18s;
+.robo-walk .robo-awake .leg-b {
+  animation: legstep 0.34s ease-in-out infinite;
+  animation-delay: -0.17s;
 }
 /* tail wag (idle + walk), antenna LED pulse */
 .robo-awake .robo-tail {
@@ -390,8 +413,8 @@ html.wand-cursor * {
   50% { transform: translateY(-2.5px); }
 }
 @keyframes legstep {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-2.5px) rotate(-8deg); }
 }
 @keyframes tailwag {
   0% { transform: rotate(-10deg); }
@@ -418,7 +441,8 @@ html.wand-cursor * {
 
 @media (prefers-reduced-motion: reduce) {
   .robo-awake,
-  .robo-awake .wheel,
+  .robo-awake .leg-a,
+  .robo-awake .leg-b,
   .robo-awake .robo-tail,
   .robo-ant,
   .robo-sleep .robo-asleep,
