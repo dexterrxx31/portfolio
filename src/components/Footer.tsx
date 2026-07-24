@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
+import ContactForm from "./ContactForm";
 import { email, githubProfile, linkedinProfile } from "../data/projects";
 
 export default function Footer() {
@@ -19,7 +20,7 @@ export default function Footer() {
           transition={{ duration: 0.6 }}
           className="font-mono text-sm text-neon"
         >
-          05. {"//"} What&apos;s next
+          08. {"//"} What&apos;s next
         </motion.p>
 
         <motion.h2
@@ -39,9 +40,15 @@ export default function Footer() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mx-auto mt-5 max-w-xl text-muted"
         >
-          Open to interesting backend, cloud and media-tech problems. My inbox
-          is always open — say hello.
+          Open to interesting backend, cloud and media-tech problems. Drop me a
+          line below, or reach out directly.
         </motion.p>
+
+        <ContactForm />
+
+        <p className="mt-12 mb-4 font-mono text-xs text-slate-600">
+          — or the old-fashioned way —
+        </p>
 
         <motion.a
           initial={{ opacity: 0, y: 20 }}

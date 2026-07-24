@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, Download } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
 import ParticleCanvas from "./ParticleCanvas";
+import TerminalWindow from "./TerminalWindow";
 import { useTypingEffect } from "../hooks/useTypingEffect";
 import { githubProfile, linkedinProfile } from "../data/projects";
 
@@ -17,13 +19,38 @@ const fadeUp = {
   animate: { opacity: 1, y: 0 },
 };
 
+const resumeUrl = `${import.meta.env.BASE_URL}resume.pdf`;
+
+function Avatar() {
+  const [failed, setFailed] = useState(false);
+  return (
+    <div className="relative mx-auto mb-8 h-28 w-28">
+      <div className="absolute inset-0 animate-spin-slow rounded-full bg-gradient-to-r from-cyan-400 to-violet-400 opacity-70 blur-[6px]" />
+      <div className="absolute inset-[3px] overflow-hidden rounded-full bg-void">
+        {failed ? (
+          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-cyan-500/20 to-violet-500/20 font-mono text-3xl font-bold text-gradient">
+            RA
+          </div>
+        ) : (
+          <img
+            src={`${import.meta.env.BASE_URL}profile.jpg`}
+            alt="Riyan Ahmad"
+            onError={() => setFailed(true)}
+            className="h-full w-full object-cover"
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Hero() {
   const typed = useTypingEffect(phrases);
 
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden py-28"
     >
       {/* animated aurora blobs */}
       <div
@@ -38,44 +65,51 @@ export default function Hero() {
       <ParticleCanvas />
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-        <motion.p
-          {...fadeUp}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-5 font-mono text-sm text-neon sm:text-base"
-        >
-          $ whoami
-        </motion.p>
+        <motion.div {...fadeUp} transition={{ duration: 0.6, delay: 0.05 }}>
+          <Avatar />
+        </motion.div>
 
         <motion.h1
           {...fadeUp}
-          transition={{ duration: 0.6, delay: 0.25 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
           className="text-5xl font-extrabold tracking-tight text-white sm:text-7xl"
         >
           Riyan <span className="text-gradient">Ahmad</span>
         </motion.h1>
 
+        {/* terminal-framed auto-typed intro */}
         <motion.div
           {...fadeUp}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-6 flex min-h-8 items-center justify-center font-mono text-sm text-slate-300 sm:text-xl"
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="mx-auto mt-8 max-w-md"
         >
-          <span>{typed}</span>
-          <span className="ml-1 inline-block h-5 w-2.5 bg-neon animate-blink sm:h-6" />
+          <TerminalWindow title="riyan@portfolio: ~ — ./intro.sh">
+            <div className="p-4 text-left font-mono text-xs sm:text-sm">
+              <div className="text-slate-500">
+                <span className="text-neon">$</span> ./intro.sh
+              </div>
+              <div className="mt-1 flex min-h-6 items-center text-slate-200">
+                <span className="mr-2 text-violet-neon">&gt;</span>
+                <span>{typed}</span>
+                <span className="ml-0.5 inline-block h-4 w-2 bg-neon animate-blink" />
+              </div>
+            </div>
+          </TerminalWindow>
         </motion.div>
 
         <motion.p
           {...fadeUp}
-          transition={{ duration: 0.6, delay: 0.55 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
           className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg"
         >
           I build the backend of live television — cloud playout, media APIs and
-          event-driven microservices on AWS. Off the clock I ship side projects
-          spanning AI-driven streaming to interactive CS visualizers.
+          event-driven microservices on AWS. Off the clock I ship side projects,
+          tinker with Linux, and shoot photography.
         </motion.p>
 
         <motion.div
           {...fadeUp}
-          transition={{ duration: 0.6, delay: 0.7 }}
+          transition={{ duration: 0.6, delay: 0.65 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
           <a
@@ -84,6 +118,13 @@ export default function Hero() {
           >
             View Projects
             <span className="absolute inset-0 -z-10 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-500 opacity-50 blur-lg transition-opacity group-hover:opacity-80" />
+          </a>
+          <a
+            href={resumeUrl}
+            download="riyan-ahmad-resume.pdf"
+            className="flex items-center gap-2 rounded-lg border border-neon/40 bg-cyan-500/5 px-6 py-3 font-mono text-sm text-neon transition-all hover:border-neon/70 hover:bg-cyan-500/10"
+          >
+            <Download size={16} /> Resume
           </a>
           <a
             href={githubProfile}

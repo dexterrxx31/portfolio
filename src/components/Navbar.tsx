@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, Moon, Sun, X } from "lucide-react";
+import { Download, Menu, Moon, Sun, X } from "lucide-react";
 import { useActiveSection } from "../hooks/useActiveSection";
 import { useTheme } from "../hooks/useTheme";
+
+const resumeUrl = `${import.meta.env.BASE_URL}resume.pdf`;
 
 const sections = [
   { id: "about", label: "About" },
   { id: "experience", label: "Experience" },
   { id: "projects", label: "Projects" },
   { id: "skills", label: "Skills" },
+  { id: "terminal", label: "Terminal" },
+  { id: "hobbies", label: "Hobbies" },
+  { id: "photography", label: "Photos" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -46,26 +51,34 @@ export default function Navbar() {
 
         {/* Desktop */}
         <ul className="hidden items-center gap-1 md:flex">
-          {sections.map((s, i) => (
+          {sections.map((s) => (
             <li key={s.id}>
               <a
                 href={`#${s.id}`}
-                className={`rounded-md px-3 py-2 font-mono text-sm transition-colors ${
+                className={`rounded-md px-2.5 py-2 font-mono text-sm transition-colors ${
                   active === s.id
                     ? "text-neon"
                     : "text-slate-400 hover:text-white"
                 }`}
               >
-                <span className="mr-1 text-xs text-slate-600">0{i + 1}.</span>
                 {s.label}
               </a>
             </li>
           ))}
           <li>
+            <a
+              href={resumeUrl}
+              download="riyan-ahmad-resume.pdf"
+              className="ml-1 flex items-center gap-1.5 rounded-md border border-neon/40 px-3 py-2 font-mono text-sm text-neon transition-all hover:border-neon/70 hover:bg-cyan-500/10"
+            >
+              <Download size={14} /> CV
+            </a>
+          </li>
+          <li>
             <button
               onClick={toggle}
               aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-              className="ml-2 rounded-md border border-line p-2 text-slate-400 transition-all hover:border-neon/50 hover:text-neon"
+              className="ml-1 rounded-md border border-line p-2 text-slate-400 transition-all hover:border-neon/50 hover:text-neon"
             >
               {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
             </button>

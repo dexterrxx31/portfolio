@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { GraduationCap, Radio, Cloud, GitBranch } from "lucide-react";
 import SectionHeading from "./SectionHeading";
+import TerminalWindow from "./TerminalWindow";
 import { education } from "../data/experience";
 
 const facts = [
@@ -21,17 +23,49 @@ const facts = [
   },
 ];
 
+function ProfileImage() {
+  const [failed, setFailed] = useState(false);
+  return (
+    <TerminalWindow title="riyan@portfolio: ~/profile.jpg">
+      <div className="aspect-square w-full">
+        {failed ? (
+          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-cyan-500/15 to-violet-500/15 font-mono text-6xl font-bold text-gradient">
+            RA
+          </div>
+        ) : (
+          <img
+            src={`${import.meta.env.BASE_URL}profile.jpg`}
+            alt="Riyan Ahmad"
+            onError={() => setFailed(true)}
+            className="h-full w-full object-cover"
+          />
+        )}
+      </div>
+    </TerminalWindow>
+  );
+}
+
 export default function About() {
   return (
     <section id="about" className="mx-auto max-w-6xl px-6 py-28">
       <SectionHeading index="01" title="About" />
 
-      <div className="grid gap-10 lg:grid-cols-5">
+      <div className="grid items-start gap-10 lg:grid-cols-5">
+        <motion.div
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto w-full max-w-xs lg:col-span-2 lg:mx-0 lg:max-w-none"
+        >
+          <ProfileImage />
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
           className="space-y-4 text-lg leading-relaxed text-muted lg:col-span-3"
         >
           <p>
@@ -56,42 +90,42 @@ export default function About() {
             society.
           </p>
         </motion.div>
+      </div>
 
-        <div className="space-y-4 lg:col-span-2">
-          {facts.map((f, i) => (
-            <motion.div
-              key={f.title}
-              initial={{ opacity: 0, x: 32 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
-              className="glow-card flex items-start gap-4 p-5"
-            >
-              <f.icon className="mt-1 shrink-0 text-neon" size={20} />
-              <div>
-                <h3 className="font-semibold text-white">{f.title}</h3>
-                <p className="mt-1 text-sm text-muted">{f.text}</p>
-              </div>
-            </motion.div>
-          ))}
-
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {facts.map((f, i) => (
           <motion.div
-            initial={{ opacity: 0, x: 32 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            key={f.title}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: 0.36 }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
             className="glow-card flex items-start gap-4 p-5"
           >
-            <GraduationCap className="mt-1 shrink-0 text-violet-neon" size={20} />
+            <f.icon className="mt-1 shrink-0 text-neon" size={20} />
             <div>
-              <h3 className="font-semibold text-white">{education.degree}</h3>
-              <p className="mt-1 text-sm text-muted">
-                {education.school} · {education.period} ·{" "}
-                <span className="text-neon">{education.score}</span>
-              </p>
+              <h3 className="font-semibold text-white">{f.title}</h3>
+              <p className="mt-1 text-sm text-muted">{f.text}</p>
             </div>
           </motion.div>
-        </div>
+        ))}
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="glow-card flex items-start gap-4 p-5"
+        >
+          <GraduationCap className="mt-1 shrink-0 text-violet-neon" size={20} />
+          <div>
+            <h3 className="font-semibold text-white">{education.degree}</h3>
+            <p className="mt-1 text-sm text-muted">
+              {education.school} · {education.period} ·{" "}
+              <span className="text-neon">{education.score}</span>
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
