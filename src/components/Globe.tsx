@@ -14,7 +14,7 @@ interface Palette {
   arc: string;
 }
 
-const DARK: Palette = { wire: "#22d3ee", nodeA: "#22d3ee", nodeB: "#a78bfa", arc: "#a78bfa" };
+const DARK: Palette = { wire: "#34d399", nodeA: "#34d399", nodeB: "#2dd4bf", arc: "#2dd4bf" };
 const LIGHT: Palette = { wire: "#0891b2", nodeA: "#0891b2", nodeB: "#7c3aed", arc: "#7c3aed" };
 
 /** Evenly distributed points on a sphere (fibonacci spiral). */

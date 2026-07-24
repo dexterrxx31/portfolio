@@ -13,7 +13,7 @@ export function useTheme() {
     localStorage.setItem("theme", theme);
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", theme === "light" ? "#f6f8fc" : "#050510");
+      ?.setAttribute("content", theme === "light" ? "#f6f8fc" : "#050a08");
   }, [theme]);
 
   return {

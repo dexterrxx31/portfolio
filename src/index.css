@@ -4,13 +4,26 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --color-void: #050510;
-  --color-surface: #0b0b1a;
-  --color-card: #10102299;
+  /* ---- Dark theme (default): Emerald Terminal ---- */
+  --color-void: #050a08;
+  --color-surface: #0b1512;
+  --color-card: #0b1512cc;
   --color-line: #ffffff14;
-  --color-neon: #22d3ee;
-  --color-violet-neon: #a78bfa;
-  --color-muted: #94a3b8;
+  --color-neon: #34d399;
+  --color-violet-neon: #2dd4bf;
+  --color-muted: #8ba397;
+
+  /*
+   * Remap the accent slots of Tailwind's palette so every literal
+   * `from-cyan-500`, `text-violet-400`, `bg-cyan-500/12`, etc. becomes
+   * emerald/teal/cyan in dark mode with zero component edits. :root.light
+   * restores the originals so light mode keeps its cyan→violet identity.
+   */
+  --color-cyan-400: #34d399; /* emerald  (gradient "from") */
+  --color-cyan-500: #10b981; /* emerald-500 (button start) */
+  --color-sky-400: #2dd4bf; /* teal     (gradient "via")  */
+  --color-violet-400: #22d3ee; /* cyan     (gradient "to")   */
+  --color-violet-500: #14b8a6; /* teal-500 (button end)     */
 
   --animate-aurora: aurora 14s ease-in-out infinite alternate;
   --animate-blink: blink 1s step-end infinite;
@@ -103,9 +116,12 @@ html {
   --color-slate-400: #52607a;
   --color-slate-500: #64748b;
   --color-slate-600: #8b9bb4;
+  /* restore cyan→violet accents for light mode (dark remaps these to emerald) */
   --color-cyan-400: #0e7490;
+  --color-cyan-500: #0891b2;
   --color-sky-400: #0369a1;
   --color-violet-400: #6d28d9;
+  --color-violet-500: #7c3aed;
 }
 
 :root.light .bg-grid {
@@ -145,7 +161,7 @@ body {
 }
 
 ::selection {
-  background: #22d3ee44;
+  background: #34d39944;
 }
 
 /* Subtle dot-grid background layer */
@@ -182,7 +198,7 @@ body {
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(140deg, #22d3ee33, #ffffff14 40%, #a78bfa33);
+  background: linear-gradient(140deg, #34d39933, #ffffff14 40%, #2dd4bf33);
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
@@ -195,7 +211,7 @@ body {
   transition: background 0.4s ease;
 }
 .glow-card:hover::before {
-  background: linear-gradient(140deg, #22d3ee88, #ffffff22 40%, #a78bfa88);
+  background: linear-gradient(140deg, #34d39988, #ffffff22 40%, #2dd4bf88);
 }
 
 /* ---- 3D depth utilities ---- */
@@ -221,8 +237,8 @@ body {
   backdrop-filter: blur(14px);
   overflow: hidden;
   box-shadow:
-    0 20px 60px -25px #22d3ee40,
-    0 8px 30px -20px #a78bfa30;
+    0 20px 60px -25px #34d39940,
+    0 8px 30px -20px #2dd4bf30;
 }
 .term-bar {
   display: flex;
