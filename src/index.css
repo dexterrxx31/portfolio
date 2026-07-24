@@ -313,14 +313,20 @@ html.wand-cursor * {
   opacity: 1;
 }
 
-/* walking: gentle bob + spinning wheels */
+/* walking: bounce synced with alternating stepping legs */
 .robo-walk .robo-awake {
-  animation: catbob 0.42s ease-in-out infinite;
+  animation: catbob 0.36s ease-in-out infinite;
 }
-.robo-walk .robo-awake .wheel {
+.robo-awake .wheel {
   transform-box: fill-box;
   transform-origin: center;
-  animation: wheelspin 0.6s linear infinite;
+}
+.robo-walk .robo-awake .wheel-a {
+  animation: legstep 0.36s ease-in-out infinite;
+}
+.robo-walk .robo-awake .wheel-b {
+  animation: legstep 0.36s ease-in-out infinite;
+  animation-delay: -0.18s;
 }
 /* tail wag (idle + walk), antenna LED pulse */
 .robo-awake .robo-tail {
@@ -383,8 +389,9 @@ html.wand-cursor * {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-2.5px); }
 }
-@keyframes wheelspin {
-  to { transform: rotate(360deg); }
+@keyframes legstep {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
 }
 @keyframes tailwag {
   0% { transform: rotate(-10deg); }

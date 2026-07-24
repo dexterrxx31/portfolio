@@ -3,23 +3,25 @@ import { useEffect, useRef, useState } from "react";
 type CatState = "walk" | "idle" | "sleep";
 
 const NAP_DELAY = 15000; // ms of no activity before napping
-const FOLLOW = 0.035; // lazy follow factor (lower = lazier)
-const OFFSET_Y = 30; // rest a little below the pointer (clear of the wand)
+const SPEED = 60; // px per second — a slow, lazy walk
+const STOP_DIST = 100; // stops this far from the pointer (keeps its distance)
+const START_DIST = 155; // won't bother moving until the pointer is this far (lazy)
 
-/** A robotic cat that lazily roams the screen after your pointer and lies
- *  down for a nap wherever it settles when you go idle. */
+/** A robotic cat that lazily walks after your pointer, keeping its distance,
+ *  and lies down for a nap wherever it settles when you go idle. */
 export default function RoboCat() {
   const containerRef = useRef<HTMLDivElement>(null);
   const flipRef = useRef<HTMLDivElement>(null);
   const pos = useRef({ x: 0, y: 0 });
   const target = useRef({ x: 0, y: 0 });
   const dir = useRef(1);
+  const walking = useRef(false);
   const lastActivity = useRef(0);
   const stateRef = useRef<CatState>("idle");
   const [state, setState] = useState<CatState>("idle");
 
   useEffect(() => {
-    pos.current = { x: window.innerWidth * 0.18, y: window.innerHeight * 0.7 };
+    pos.current = { x: window.innerWidth * 0.18, y: window.innerHeight * 0.72 };
     target.current = { ...pos.current };
     lastActivity.current = performance.now();
 
@@ -34,15 +36,12 @@ export default function RoboCat() {
     };
 
     const onMove = (e: MouseEvent) => {
-      target.current = { x: e.clientX, y: e.clientY + OFFSET_Y };
+      target.current = { x: e.clientX, y: e.clientY };
       wake();
     };
     const onTouch = (e: TouchEvent) => {
       if (e.touches[0])
-        target.current = {
-          x: e.touches[0].clientX,
-          y: e.touches[0].clientY + OFFSET_Y,
-        };
+        target.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
       wake();
     };
     const onScroll = () => wake();
@@ -55,7 +54,12 @@ export default function RoboCat() {
     window.addEventListener("keydown", onKey);
 
     let raf = 0;
+    let lastT = performance.now();
     const tick = () => {
+      const now = performance.now();
+      const dt = Math.min(50, now - lastT);
+      lastT = now;
+
       const el = containerRef.current;
       const flip = flipRef.current;
       if (el && flip) {
@@ -63,22 +67,26 @@ export default function RoboCat() {
         const ty = Math.min(window.innerHeight - 30, Math.max(34, target.current.y));
         const dx = tx - pos.current.x;
         const dy = ty - pos.current.y;
-        const dist = Math.hypot(dx, dy);
+        const dist = Math.hypot(dx, dy) || 1;
 
-        if (dist > 3 && stateRef.current !== "sleep") {
-          if (Math.abs(dx) > 1) dir.current = dx > 0 ? 1 : -1;
-          pos.current.x += dx * FOLLOW; // lazy amble
-          pos.current.y += dy * FOLLOW;
-          setSt("walk");
-        } else {
-          if (stateRef.current === "walk") setSt("idle");
-          if (
-            stateRef.current !== "sleep" &&
-            performance.now() - lastActivity.current > NAP_DELAY
-          ) {
-            setSt("sleep");
+        if (stateRef.current !== "sleep") {
+          // hysteresis: only start walking once the pointer wanders far off,
+          // then keep walking until we've arrived near STOP_DIST (+ a small
+          // band so it settles instead of creeping forever — lets it nap).
+          if (walking.current ? dist > STOP_DIST + 2 : dist > START_DIST) {
+            walking.current = true;
+            const step = Math.min((SPEED * dt) / 1000, dist - STOP_DIST);
+            pos.current.x += (dx / dist) * step;
+            pos.current.y += (dy / dist) * step;
+            if (Math.abs(dx) > 2) dir.current = dx > 0 ? 1 : -1;
+            setSt("walk");
+          } else {
+            walking.current = false;
+            setSt("idle");
+            if (now - lastActivity.current > NAP_DELAY) setSt("sleep");
           }
         }
+
         el.style.transform = `translate(${pos.current.x - 30}px, ${pos.current.y - 24}px)`;
         flip.style.transform = `scaleX(${dir.current})`;
       }
@@ -110,10 +118,8 @@ export default function RoboCat() {
             <path d="M12 26 C 2 24, 3 11, 9 8" fill="none" stroke="#7c8797" strokeWidth="3" strokeLinecap="round" />
             <circle className="led" cx="9" cy="8" r="2.4" />
           </g>
-          <circle className="wheel" cx="18" cy="40" r="6" fill="#8994a6" stroke="#5c6675" strokeWidth="1.5" />
-          <circle className="wheel" cx="40" cy="40" r="6" fill="#8994a6" stroke="#5c6675" strokeWidth="1.5" />
-          <circle className="hub" cx="18" cy="40" r="1.6" />
-          <circle className="hub" cx="40" cy="40" r="1.6" />
+          <circle className="wheel wheel-a" cx="18" cy="40" r="6" fill="#8994a6" stroke="#5c6675" strokeWidth="1.5" />
+          <circle className="wheel wheel-b" cx="40" cy="40" r="6" fill="#8994a6" stroke="#5c6675" strokeWidth="1.5" />
           <rect x="10" y="20" width="40" height="17" rx="7" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" />
           <circle cx="18" cy="28" r="1" fill="#7c8797" />
           <circle cx="26" cy="28" r="1" fill="#7c8797" />
@@ -128,27 +134,20 @@ export default function RoboCat() {
 
         {/* ---- Asleep / lying-down pose ---- */}
         <svg className="robo-svg robo-asleep" width="60" height="48" viewBox="0 0 60 48">
-          {/* curled tail over the back */}
           <g className="robo-tail-sleep">
             <path d="M15 34 C 5 34, 5 22, 13 23" fill="none" stroke="#7c8797" strokeWidth="3" strokeLinecap="round" />
             <circle className="led" cx="13" cy="23" r="2.2" />
           </g>
-          {/* tucked wheels resting on the ground */}
           <circle cx="21" cy="42" r="3.4" fill="#8994a6" stroke="#5c6675" strokeWidth="1.2" />
           <circle cx="37" cy="42" r="3.4" fill="#8994a6" stroke="#5c6675" strokeWidth="1.2" />
-          {/* low, long body lying down */}
           <rect x="9" y="30" width="40" height="13" rx="6.5" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" />
           <circle cx="20" cy="36" r="1" fill="#7c8797" />
           <circle cx="28" cy="36" r="1" fill="#7c8797" />
-          {/* head resting level with the body */}
           <rect x="37" y="29" width="18" height="14" rx="6" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" />
-          {/* flattened ears */}
           <path d="M40 30 L42 25 L46 30 Z" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" strokeLinejoin="round" />
           <path d="M47 30 L51 25 L52 30 Z" fill="#c3ccd8" stroke="#7c8797" strokeWidth="1.5" strokeLinejoin="round" />
-          {/* drooped antenna, dim LED */}
           <line x1="49" y1="29" x2="52" y2="26" stroke="#7c8797" strokeWidth="1.5" />
           <circle className="led robo-ant" cx="52.5" cy="25.5" r="1.5" />
-          {/* closed eyes */}
           <path d="M40.5 36 h4" stroke="var(--color-neon)" strokeWidth="2" strokeLinecap="round" />
           <path d="M47 36 h4" stroke="var(--color-neon)" strokeWidth="2" strokeLinecap="round" />
         </svg>
