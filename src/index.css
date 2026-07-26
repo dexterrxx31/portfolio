@@ -523,6 +523,29 @@ html.wand-cursor * {
     box-shadow: 0 0 12px 3px #f472b6;
   }
 }
+
+/* sparks shed from the beam head while scrolling */
+.scroll-spark {
+  position: fixed;
+  z-index: 61;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 1px;
+  transform: rotate(45deg);
+  pointer-events: none;
+  animation: scrollspark 0.75s ease-out forwards;
+}
+@keyframes scrollspark {
+  0% {
+    opacity: 1;
+    transform: rotate(45deg) translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) translate(11px, 18px) scale(0.25);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .scroll-rail-fill,
   .scroll-rail-head {
