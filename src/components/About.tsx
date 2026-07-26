@@ -26,7 +26,7 @@ const facts = [
 function ProfileImage() {
   const [failed, setFailed] = useState(false);
   return (
-    <TerminalWindow title="riyan@portfolio: ~/profile.jpg">
+    <TerminalWindow title="riyan@portfolio: ~/profile.png">
       <div className="aspect-square w-full">
         {failed ? (
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-cyan-500/15 to-violet-500/15 font-mono text-6xl font-bold text-gradient">
@@ -34,7 +34,7 @@ function ProfileImage() {
           </div>
         ) : (
           <img
-            src={`${import.meta.env.BASE_URL}profile.jpg`}
+            src={`${import.meta.env.BASE_URL}profile.png`}
             alt="Riyan Ahmad"
             onError={() => setFailed(true)}
             className="h-full w-full object-cover"

@@ -39,7 +39,7 @@ function Avatar() {
           </div>
         ) : (
           <img
-            src={`${import.meta.env.BASE_URL}profile.jpg`}
+            src={`${import.meta.env.BASE_URL}profile.png`}
             alt="Riyan Ahmad"
             onError={() => setFailed(true)}
             className="h-full w-full object-cover"
