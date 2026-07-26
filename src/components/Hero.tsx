@@ -14,7 +14,7 @@ const prefersReducedMotion =
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const phrases = [
-  "Software Development Engineer @ Evertz",
+  "SDE-2 @ Evertz Microsystems",
   "Backend & Cloud — AWS Serverless",
   "Broadcast / Media Streaming Tech",
   "REST · WebSockets · OpenAPI",

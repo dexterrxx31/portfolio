@@ -10,14 +10,22 @@ export interface ExperienceItem {
 export const experience: ExperienceItem[] = [
   {
     company: "Evertz Microsystems",
-    role: "Software Development Engineer — 1",
-    period: "Aug 2023 — Present",
+    role: "Software Development Engineer — 2",
+    period: "Oct 2025 — Present",
     current: true,
     highlights: [
-      "Develop and maintain RESTful API endpoints with shared OpenAPI/AsyncAPI schemas and a centralized error-handling decorator for system stability.",
+      'Enhanced a Java Spring application ("Mediator") with a new BINLIST playlist-management feature for channels using WebSocket APIs.',
+      "Improved application performance with versioned APIs and raised quality via schema validation and Mabl-based end-to-end automation.",
+    ],
+    tech: ["Java", "Spring", "WebSockets", "REST APIs", "Mabl", "Linux"],
+  },
+  {
+    company: "Evertz Microsystems",
+    role: "Software Development Engineer — 1",
+    period: "Aug 2023 — Sept 2025",
+    highlights: [
+      "Developed and maintained RESTful API endpoints with shared OpenAPI/AsyncAPI schemas and a centralized error-handling decorator for consistency and system stability.",
       "Led development of two high-priority features — an enhanced content registration workflow and a content purging system — delivering both ahead of schedule.",
-      "Built a new playlist management feature for channels in a legacy Java Spring application using WebSocket APIs.",
-      "Improved performance with versioned APIs and raised quality via schema validation and Mabl-based end-to-end automation.",
     ],
     tech: [
       "AWS Lambda",
@@ -26,8 +34,6 @@ export const experience: ExperienceItem[] = [
       "DynamoDB",
       "Step Functions",
       "MariaDB",
-      "Spring",
-      "WebSockets",
       "OpenAPI",
       "AsyncAPI",
     ],

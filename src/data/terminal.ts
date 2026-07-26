@@ -57,7 +57,7 @@ const NEOFETCH: string[] = [
   "       dGGGGMMb         ----------------",
   "      @p~qp~~qMb        OS: riyan-os (backend edition)",
   "      M|@||@) M|        Host: Evertz Microsystems",
-  "      @,----.JM|        Role: Software Development Engineer 1",
+  "      @,----.JM|        Role: Software Development Engineer 2",
   "     JS^\\__/  qKL       Shell: bash + fastapi",
   "    dZP        qKRb     Cloud: AWS (Lambda·S3·EC2·DynamoDB)",
   "   dZP          qKKb    Lang: Python · Java · C++ · TS",
@@ -71,7 +71,7 @@ const NEOFETCH: string[] = [
 function jsonProfile(): string[] {
   const obj = {
     name: "Riyan Ahmad",
-    role: "Software Development Engineer 1",
+    role: "Software Development Engineer 2",
     company: "Evertz Microsystems",
     location: "India",
     focus: ["backend", "cloud", "broadcast/media"],

@@ -69,7 +69,7 @@ export default function About() {
           className="space-y-4 text-lg leading-relaxed text-muted lg:col-span-3"
         >
           <p>
-            I&apos;m a backend engineer at{" "}
+            I&apos;m an <span className="text-white">SDE-2</span> at{" "}
             <span className="text-white">Evertz Microsystems</span>, where I
             build the software that keeps broadcast and media pipelines running
             — content workflows, playlist management over WebSockets, and
