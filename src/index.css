@@ -471,8 +471,20 @@ html.wand-cursor * {
   position: absolute;
   inset: 0;
   transform-origin: top center;
-  background: linear-gradient(to bottom, var(--color-neon), var(--color-violet-neon));
-  box-shadow: 0 0 10px color-mix(in srgb, var(--color-neon) 45%, transparent);
+  /* flowing multi-neon beam */
+  background: linear-gradient(
+    180deg,
+    #22d3ee,
+    #34d399,
+    #a78bfa,
+    #f472b6,
+    #22d3ee
+  );
+  background-size: 100% 300%;
+  animation: neonflow 4s linear infinite;
+  box-shadow:
+    0 0 8px #34d399aa,
+    0 0 16px #22d3ee55;
 }
 .scroll-rail-head {
   position: absolute;
@@ -481,8 +493,41 @@ html.wand-cursor * {
   height: 9px;
   margin: -4px 0 0 -4px;
   border-radius: 50%;
-  background: var(--color-neon);
-  box-shadow: 0 0 12px 2px var(--color-neon);
+  background: #22d3ee;
+  animation: neonhead 4s linear infinite;
+}
+@keyframes neonflow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 -300%;
+  }
+}
+@keyframes neonhead {
+  0%,
+  100% {
+    background: #22d3ee;
+    box-shadow: 0 0 12px 3px #22d3ee;
+  }
+  25% {
+    background: #34d399;
+    box-shadow: 0 0 12px 3px #34d399;
+  }
+  50% {
+    background: #a78bfa;
+    box-shadow: 0 0 12px 3px #a78bfa;
+  }
+  75% {
+    background: #f472b6;
+    box-shadow: 0 0 12px 3px #f472b6;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-rail-fill,
+  .scroll-rail-head {
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
