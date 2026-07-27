@@ -115,9 +115,10 @@ export function runCommand(raw: string): CommandResult {
     return {
       lines: [
         "# About",
-        "Backend engineer at Evertz Microsystems building broadcast/media",
-        "pipelines — content workflows, WebSocket playlist management, and",
-        "event-driven microservices on AWS. Contract-first with OpenAPI/AsyncAPI.",
+        "SDE-2 at Evertz Microsystems building broadcast/media pipelines —",
+        "content workflows, WebSocket playlist management, and event-driven",
+        "microservices on AWS. Contract-first (OpenAPI/AsyncAPI); Java/Spring",
+        "Boot + Python, and increasingly agentic AI.",
       ],
     };
   if (lower === "skills")

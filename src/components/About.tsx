@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { GraduationCap, Radio, Cloud, GitBranch } from "lucide-react";
+import { GraduationCap, Radio, Cloud, Sparkles } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import TerminalWindow from "./TerminalWindow";
 import { education } from "../data/experience";
@@ -14,12 +14,12 @@ const facts = [
   {
     icon: Cloud,
     title: "Cloud native",
-    text: "Serverless-first on AWS: Lambda, DynamoDB, Step Functions.",
+    text: "Event-driven on AWS: Lambda, SNS/SQS, Step Functions, CloudFormation.",
   },
   {
-    icon: GitBranch,
-    title: "API craftsman",
-    text: "Contract-first design with OpenAPI & AsyncAPI schemas.",
+    icon: Sparkles,
+    title: "Agentic AI",
+    text: "Building LLM-driven systems — like showrunner, an AI-programmed TV channel.",
   },
 ];
 
@@ -70,24 +70,30 @@ export default function About() {
         >
           <p>
             I&apos;m an <span className="text-white">SDE-2</span> at{" "}
-            <span className="text-white">Evertz Microsystems</span>, where I
-            build the software that keeps broadcast and media pipelines running
-            — content workflows, playlist management over WebSockets, and
-            event-driven microservices on AWS.
+            <span className="text-white">Evertz Microsystems</span>, building the
+            software that keeps broadcast and media pipelines running — content
+            workflows, WebSocket-driven playlist management, and event-driven
+            microservices on <span className="text-white">AWS</span> (Lambda,
+            SNS/SQS, Step Functions, S3, CloudFormation).
           </p>
           <p>
             My work is contract-first: shared{" "}
             <span className="text-neon">OpenAPI/AsyncAPI</span> schemas,
             versioned APIs, centralized error handling, and end-to-end
-            automation, because reliability in live television is
-            non-negotiable.
+            automation — because reliability in live television is
+            non-negotiable. I work across{" "}
+            <span className="text-white">Java / Spring Boot</span> and{" "}
+            <span className="text-white">Python</span>, and increasingly with{" "}
+            <span className="text-neon">agentic AI</span>.
           </p>
           <p>
-            I led two high-priority features — a content registration workflow
-            and a purging system — from design to delivery,{" "}
-            <span className="text-white">ahead of schedule</span>. Before that I
-            mentored 600+ students in IoT and ML through my college&apos;s ECE
-            society.
+            Recently promoted to <span className="text-white">SDE-2</span> after
+            leading two high-priority features — a content registration workflow
+            and a purging system — to delivery{" "}
+            <span className="text-white">ahead of schedule</span>. Off the clock
+            I ship side projects (React / Next.js), tinker with Linux, and shoot
+            photography. Earlier, I mentored 600+ students in IoT &amp; ML
+            through my college&apos;s ECE society.
           </p>
         </motion.div>
       </div>
