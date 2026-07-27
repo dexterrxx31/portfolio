@@ -14,28 +14,33 @@ export const experience: ExperienceItem[] = [
     period: "Oct 2025 — Present",
     current: true,
     highlights: [
-      'Enhanced a Java Spring application ("Mediator") with a new BINLIST playlist-management feature for channels using WebSocket APIs.',
-      "Improved application performance with versioned APIs and raised quality via schema validation and Mabl-based end-to-end automation.",
+      "Built a new WebSocket API on Mediator — Evertz's Java-based media playout product — to insert items from a bin list and put a show on air in real time.",
+      "Added Mabl-based end-to-end automation tests and technical documentation for the new insertion-to-air workflow.",
+      "Leading the migration of the legacy Mediator system to a Kubernetes-based architecture.",
     ],
-    tech: ["Java", "Spring", "WebSockets", "REST APIs", "Mabl", "Linux"],
+    tech: ["Java", "Spring Boot", "WebSockets", "Kubernetes", "Mabl", "Linux"],
   },
   {
     company: "Evertz Microsystems",
     role: "Software Development Engineer — 1",
     period: "Aug 2023 — Sept 2025",
     highlights: [
-      "Developed and maintained RESTful API endpoints with shared OpenAPI/AsyncAPI schemas and a centralized error-handling decorator for consistency and system stability.",
-      "Led development of two high-priority features — an enhanced content registration workflow and a content purging system — delivering both ahead of schedule.",
+      "Built a new asset-registration API powering a broadcast content workflow in evertz.io (Python + Boto3), with shared OpenAPI/AsyncAPI schemas and centralized error handling.",
+      "Added a bulk asset-deletion feature with granular control — remove only the degenerate (derived) renditions, or the original S3 media alongside them.",
+      "Added EPG (Electronic Program Guide) support for channel shows plus EPG export functionality in evertz.io.",
+      "Set up CI/CD deployment pipelines using GitHub Actions.",
+      "Drove UI test automation for the Java/Spring Mediator system in Mabl — custom XPath rules, agentic-AI element matching and JS assertion scripts — covering ~250 screens, then onboarded the team to Mabl and Mediator.",
     ],
     tech: [
+      "Python",
+      "Boto3",
       "AWS Lambda",
       "S3",
-      "EC2",
       "DynamoDB",
       "Step Functions",
-      "MariaDB",
-      "OpenAPI",
-      "AsyncAPI",
+      "GitHub Actions",
+      "Mabl",
+      "OpenAPI/AsyncAPI",
     ],
   },
   {
@@ -49,15 +54,24 @@ export const experience: ExperienceItem[] = [
     ],
     tech: ["AWS Lambda", "S3", "DynamoDB", "CloudWatch", "REST APIs", "Linux"],
   },
+];
+
+export interface Activity {
+  org: string;
+  role: string;
+  period: string;
+  description: string;
+  tech: string[];
+}
+
+export const activities: Activity[] = [
   {
-    company: "JSS-Quanta",
-    role: "Embedded & Web Developer — official ECE society",
+    org: "JSS-Quanta",
+    role: "Embedded & Web Developer",
     period: "Oct 2019 — Jul 2023",
-    highlights: [
-      "Conducted 5 workshops and 3 orientation programs, engaging 600+ students in IoT and machine learning.",
-      "Built the society's official website and technical projects with Arduino, NodeMCU, RFID and IoT systems.",
-    ],
-    tech: ["JavaScript", "Python", "Arduino", "NodeMCU", "IoT"],
+    description:
+      "As Embedded & Web Developer for JSS-Quanta — the official ECE society of my college — I led hands-on technical outreach and built the tools the club ran on. I ran 5 workshops and 3 orientation programs that engaged 600+ students in IoT and machine learning, mentored juniors, and developed the society's official website plus embedded projects using Arduino, NodeMCU, RFID and IoT systems.",
+    tech: ["JavaScript", "Python", "Arduino", "NodeMCU", "RFID", "IoT"],
   },
 ];
 

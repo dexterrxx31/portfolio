@@ -35,6 +35,8 @@ export const skillGroups: SkillGroup[] = [
       "REST APIs",
       "WebSockets",
       "OpenAPI / AsyncAPI",
+      "Kubernetes",
+      "GitHub Actions",
       "MariaDB",
       "Mabl E2E",
       "Linux",

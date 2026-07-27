@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { Briefcase } from "lucide-react";
+import { Briefcase, Users } from "lucide-react";
 import SectionHeading from "./SectionHeading";
-import { experience } from "../data/experience";
+import { experience, activities } from "../data/experience";
 
 export default function Experience() {
   return (
@@ -62,6 +62,60 @@ export default function Experience() {
             </div>
           </motion.article>
         ))}
+      </div>
+
+      {/* Activities */}
+      <div className="mt-16">
+        <motion.h3
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-6 font-mono text-sm text-slate-500"
+        >
+          <span className="text-neon">$</span> cat activities/
+        </motion.h3>
+
+        <div className="grid gap-6">
+          {activities.map((a, i) => (
+            <motion.div
+              key={`${a.org}-${a.role}`}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="glow-card flex flex-col gap-4 p-6 sm:flex-row sm:p-8"
+            >
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-line bg-white/[0.03] text-neon">
+                <Users size={20} />
+              </div>
+              <div>
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <h4 className="text-lg font-bold text-white">
+                    {a.role}
+                    <span className="ml-2 text-neon">@ {a.org}</span>
+                  </h4>
+                  <span className="font-mono text-xs text-slate-500">
+                    {a.period}
+                  </span>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-muted">
+                  {a.description}
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {a.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-full border border-line bg-white/[0.03] px-3 py-1 font-mono text-xs text-slate-400"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

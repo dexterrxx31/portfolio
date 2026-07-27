@@ -77,23 +77,20 @@ export default function About() {
             SNS/SQS, Step Functions, S3, CloudFormation).
           </p>
           <p>
-            My work is contract-first: shared{" "}
-            <span className="text-neon">OpenAPI/AsyncAPI</span> schemas,
-            versioned APIs, centralized error handling, and end-to-end
-            automation — because reliability in live television is
-            non-negotiable. I work across{" "}
+            I&apos;m equally at home in{" "}
             <span className="text-white">Java / Spring Boot</span> and{" "}
-            <span className="text-white">Python</span>, and increasingly with{" "}
-            <span className="text-neon">agentic AI</span>.
+            <span className="text-white">Python</span> — designing APIs, wiring
+            up AWS services, and lately building with{" "}
+            <span className="text-neon">agentic AI</span>. Whatever the stack, I
+            optimize for the same thing: systems that stay reliable when it
+            matters most.
           </p>
           <p>
-            Recently promoted to <span className="text-white">SDE-2</span> after
-            leading two high-priority features — a content registration workflow
-            and a purging system — to delivery{" "}
+            I&apos;ve led two high-priority features — a content registration
+            workflow and a purging system — to delivery{" "}
             <span className="text-white">ahead of schedule</span>. Off the clock
             I ship side projects (React / Next.js), tinker with Linux, and shoot
-            photography. Earlier, I mentored 600+ students in IoT &amp; ML
-            through my college&apos;s ECE society.
+            photography.
           </p>
         </motion.div>
       </div>
