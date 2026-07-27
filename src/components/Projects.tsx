@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Maximize2, Star, Tv } from "lucide-react";
+import { ExternalLink, Star, Tv } from "lucide-react";
 import { GithubIcon } from "./BrandIcons";
 import SectionHeading from "./SectionHeading";
 import TiltCard from "./TiltCard";
@@ -115,9 +115,6 @@ export default function Projects() {
               {flagship.description}
             </p>
             <TechTags tech={flagship.tech} />
-            <span className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-slate-500 transition-colors group-hover:text-neon">
-              <Maximize2 size={12} /> view details
-            </span>
           </div>
         </TiltCard>
       </motion.div>
@@ -156,9 +153,6 @@ export default function Projects() {
               <div className="relative z-[2]">
                 <TechTags tech={project.tech} />
               </div>
-              <span className="relative z-[2] mt-4 inline-flex items-center gap-1.5 font-mono text-xs text-slate-500 transition-colors group-hover:text-neon">
-                <Maximize2 size={12} /> view details
-              </span>
             </TiltCard>
           </motion.div>
         ))}
