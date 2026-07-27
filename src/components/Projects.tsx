@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Star, Tv } from "lucide-react";
+import { ExternalLink, Maximize2, Star, Tv } from "lucide-react";
 import { GithubIcon } from "./BrandIcons";
 import SectionHeading from "./SectionHeading";
 import TiltCard from "./TiltCard";
+import ProjectModal from "./ProjectModal";
 import {
   featuredProjects,
   githubProfile,
@@ -26,12 +28,15 @@ function TechTags({ tech }: { tech: string[] }) {
 }
 
 function ProjectLinks({ project }: { project: Project }) {
+  // stopPropagation so clicking a link doesn't also open the detail modal
+  const stop = (e: React.MouseEvent) => e.stopPropagation();
   return (
     <div className="flex items-center gap-3">
       <a
         href={project.repo}
         target="_blank"
         rel="noreferrer"
+        onClick={stop}
         aria-label={`${project.name} on GitHub`}
         className="text-slate-400 transition-colors hover:text-neon"
       >
@@ -42,6 +47,7 @@ function ProjectLinks({ project }: { project: Project }) {
           href={project.live}
           target="_blank"
           rel="noreferrer"
+          onClick={stop}
           aria-label={`${project.name} live site`}
           className="text-slate-400 transition-colors hover:text-neon"
         >
@@ -55,10 +61,15 @@ function ProjectLinks({ project }: { project: Project }) {
 export default function Projects() {
   const flagship = featuredProjects.find((p) => p.flagship)!;
   const rest = featuredProjects.filter((p) => !p.flagship);
+  const [active, setActive] = useState<Project | null>(null);
 
   return (
     <section id="projects" className="mx-auto max-w-6xl px-6 py-28">
       <SectionHeading index="03" title="Projects" />
+      <p className="mb-10 max-w-2xl text-muted">
+        <span className="font-mono text-neon">$</span> click any project for the
+        full breakdown — architecture, stack &amp; links.
+      </p>
 
       {/* Flagship */}
       <motion.div
@@ -67,36 +78,47 @@ export default function Projects() {
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.7 }}
       >
-        <TiltCard className="glow-card relative overflow-hidden p-8 sm:p-10">
+        <TiltCard className="glow-card group relative cursor-pointer overflow-hidden p-8 sm:p-10">
+          <button
+            type="button"
+            onClick={() => setActive(flagship)}
+            className="absolute inset-0 z-[1]"
+            aria-label={`View details for ${flagship.name}`}
+          />
           <div
             aria-hidden
             className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-cyan-500/10 blur-3xl"
           />
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="flex items-center gap-2 rounded-full border border-neon/40 bg-cyan-500/10 px-3 py-1 font-mono text-xs text-neon">
-              <Star size={12} /> Flagship project
+          <div className="relative z-[2]">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <span className="flex items-center gap-2 rounded-full border border-neon/40 bg-cyan-500/10 px-3 py-1 font-mono text-xs text-neon">
+                <Star size={12} /> Flagship project
+              </span>
+              <ProjectLinks project={flagship} />
+            </div>
+
+            <div className="mt-6 flex items-start gap-4">
+              <div className="hidden rounded-xl border border-line bg-white/[0.03] p-4 sm:block">
+                <Tv className="text-neon" size={32} />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white sm:text-3xl">
+                  {flagship.name}
+                </h3>
+                <p className="mt-1 font-mono text-sm text-violet-neon">
+                  {flagship.tagline}
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-5 max-w-3xl leading-relaxed text-muted">
+              {flagship.description}
+            </p>
+            <TechTags tech={flagship.tech} />
+            <span className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-slate-500 transition-colors group-hover:text-neon">
+              <Maximize2 size={12} /> view details
             </span>
-            <ProjectLinks project={flagship} />
           </div>
-
-          <div className="mt-6 flex items-start gap-4">
-            <div className="hidden rounded-xl border border-line bg-white/[0.03] p-4 sm:block">
-              <Tv className="text-neon" size={32} />
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold text-white sm:text-3xl">
-                {flagship.name}
-              </h3>
-              <p className="mt-1 font-mono text-sm text-violet-neon">
-                {flagship.tagline}
-              </p>
-            </div>
-          </div>
-
-          <p className="mt-5 max-w-3xl leading-relaxed text-muted">
-            {flagship.description}
-          </p>
-          <TechTags tech={flagship.tech} />
         </TiltCard>
       </motion.div>
 
@@ -110,8 +132,14 @@ export default function Projects() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6, delay: (i % 2) * 0.12 }}
           >
-            <TiltCard className="glow-card flex h-full flex-col p-7">
-              <div className="flex items-start justify-between">
+            <TiltCard className="glow-card group relative flex h-full cursor-pointer flex-col p-7">
+              <button
+                type="button"
+                onClick={() => setActive(project)}
+                className="absolute inset-0 z-[1]"
+                aria-label={`View details for ${project.name}`}
+              />
+              <div className="relative z-[2] flex items-start justify-between">
                 <div>
                   <h3 className="text-xl font-bold text-white transition-colors group-hover:text-neon">
                     {project.name}
@@ -122,10 +150,15 @@ export default function Projects() {
                 </div>
                 <ProjectLinks project={project} />
               </div>
-              <p className="mt-4 flex-1 text-sm leading-relaxed text-muted">
+              <p className="relative z-[2] mt-4 flex-1 text-sm leading-relaxed text-muted">
                 {project.description}
               </p>
-              <TechTags tech={project.tech} />
+              <div className="relative z-[2]">
+                <TechTags tech={project.tech} />
+              </div>
+              <span className="relative z-[2] mt-4 inline-flex items-center gap-1.5 font-mono text-xs text-slate-500 transition-colors group-hover:text-neon">
+                <Maximize2 size={12} /> view details
+              </span>
             </TiltCard>
           </motion.div>
         ))}
@@ -168,6 +201,8 @@ export default function Projects() {
           </a>
         </div>
       </motion.div>
+
+      <ProjectModal project={active} onClose={() => setActive(null)} />
     </section>
   );
 }
