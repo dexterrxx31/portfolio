@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle2, AlertCircle } from "lucide-react";
 import TerminalWindow from "./TerminalWindow";
-import { sendMessage } from "../lib/sendMessage";
+import { sendMessage, emailConfigured } from "../lib/sendMessage";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -122,7 +122,10 @@ export default function ContactForm() {
 
             {status === "sent" && (
               <span className="flex items-center gap-1.5 font-mono text-xs text-green-400">
-                <CheckCircle2 size={15} /> message composed — check your mail app
+                <CheckCircle2 size={15} />{" "}
+                {emailConfigured
+                  ? "message sent — I'll get back to you soon!"
+                  : "message composed — check your mail app"}
               </span>
             )}
             {status === "error" && (
