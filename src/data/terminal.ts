@@ -141,7 +141,7 @@ export function runCommand(raw: string): CommandResult {
     return { lines: hobbies.map((h) => `~/hobbies/${h.slug.padEnd(14)} ${h.blurb}`) };
   if (lower === "photography")
     return {
-      lines: [`${photos.length} frames in ~/photography/`, "scroll down to the gallery to view them.", ...photos.map((p) => `  📷 ${p.title} — ${p.location}`)],
+      lines: [`${photos.length} frames in ~/photography/`, "scroll down to the gallery to view them.", ...photos.map((p) => `  📷 ${p.title}`)],
     };
   if (lower === "neofetch" || lower === "screenfetch") return { lines: NEOFETCH };
   if (lower === "curl /api/about" || lower === "curl /api/about.json" || lower === "wget /api/about")
