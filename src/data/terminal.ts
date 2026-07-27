@@ -78,7 +78,7 @@ function jsonProfile(): string[] {
     stack: {
       languages: ["Python", "Java", "C", "C++", "TypeScript"],
       cloud: ["AWS Lambda", "S3", "EC2", "DynamoDB", "Step Functions"],
-      frameworks: ["Spring", "FastAPI", "Django"],
+      frameworks: ["Spring Boot", "Next.js", "React", "FastAPI", "Django"],
     },
     education: `${education.degree}, ${education.school} (${education.score})`,
     email,
